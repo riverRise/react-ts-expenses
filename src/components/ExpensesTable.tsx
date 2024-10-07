@@ -6,7 +6,7 @@ const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description'
 // Adjust the styles (font weight, alignment);
 
 const ExpansesTable = () => {
-  const [expensesData, setExpensesData] = useState([])
+  const [expensesData, setExpensesData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -20,7 +20,9 @@ const ExpansesTable = () => {
       const data = await response.json();
       console.log({data});
 
-      setExpensesData(data);
+      if (data && data.length) {
+        setExpensesData(data);
+      }
 
     } catch (e) {
       console.log(e);
@@ -42,17 +44,17 @@ const ExpansesTable = () => {
 
     return (
       <div>
-        <table>
+        <table className='table'>
           <thead>
             <tr>
               {tableHeadingRow.map((item, index) => (
-                <th key={index}>{item}</th>
+                <th key={index} className='table-headings'>{item}</th>
               ))}
             </tr>
           </thead>
           <tbody>
               {expensesData.map(({amount, category, date, description, id, merchant, status}) => (
-                <tr key={id}>
+                <tr key={id} className='table-contents'>
                   <th>{handleDate(date)}</th>
                   <th>{merchant}</th>
                   <th>{amount}</th>

@@ -2,8 +2,9 @@ import ExpansesTable from "./components/ExpensesTable";
 
 function App() {
   return (
-    <div id="template-text">
-      <h1>Expenses</h1>
+    <div className='main-app'>
+      <h1 className='u-h1'>Expenses</h1>
+      <div className='divider' role='presentation'/>
       <ExpansesTable />
     </div>
   );

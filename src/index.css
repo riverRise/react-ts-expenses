@@ -1,3 +1,4 @@
+@import './components/ExpensesTable.css';
 /*
   1. Use a more-intuitive box-sizing model.
 */
@@ -61,10 +62,20 @@ h6 {
   isolation: isolate;
 }
 
-#template-text {
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: #333;
-  margin: 20px;
-  padding: 0;
+.main-app {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  font-family: sans-serif;
+}
+
+.u-h1 {
+  font-size: 40px;
+}
+
+.divider {
+  height: 2px;
+  background: black;
+  width: 100%;
+  margin-bottom: 20px;
 }
