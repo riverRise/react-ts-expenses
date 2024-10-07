@@ -14,6 +14,7 @@
   
   > th {
     font-weight: normal;
-    padding: 4px 0;
+    padding: 4px 8px;
+    text-align: left;
    }
 }

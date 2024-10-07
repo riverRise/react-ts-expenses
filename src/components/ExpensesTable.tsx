@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react';
+import { handleDate, capitalise } from '../utils';
 
 const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description', 'Status'];
+
+type ExpenseRow  = {
+  amount: number, 
+  category: string, 
+  date: string, 
+  description: string, 
+  id: number, 
+  merchant: string
+  status: string,
+}
 
 const ExpansesTable = () => {
   const [expensesData, setExpensesData] = useState([]);
@@ -29,15 +40,6 @@ const ExpansesTable = () => {
     }
   }
 
-  const handleDate = (date: string) => {
-    const newDate = new Date(date)
-    const prettyDate = new Intl.DateTimeFormat('en-GB', {
-      month: 'short',
-      day: 'numeric'
-    }).format(newDate);
-    return prettyDate;
-  }
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -52,14 +54,14 @@ const ExpansesTable = () => {
     content = (
       <>
         {expensesData.length !== 0 ? 
-          expensesData.map(({amount, category, date, description, id, merchant, status}) => (
+          expensesData.map(({amount, category, date, description, id, merchant, status}: ExpenseRow) => (
             <tr key={id} className='table-contents'>
               <th>{handleDate(date)}</th>
               <th>{merchant}</th>
-              <th>{amount}</th>
-              <th>{category}</th>
+              <th>£{amount}</th>
+              <th>{capitalise(category)}</th>
               <th>{description}</th>
-              <th>{status}</th>
+              <th>{capitalise(status)}</th>
             </tr>
           )) 
           : <tr><th>No data available</th></tr>}
