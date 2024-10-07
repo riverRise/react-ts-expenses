@@ -7,9 +7,12 @@ const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description'
 
 const ExpansesTable = () => {
   const [expensesData, setExpensesData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await fetch("https://expenses-backend-mu.vercel.app/expenses", {
         headers: {
           "Content-Type": "application/json",
@@ -18,14 +21,14 @@ const ExpansesTable = () => {
       })
 
       const data = await response.json();
-      console.log({data});
 
       if (data && data.length) {
         setExpensesData(data);
+        setLoading(false);
       }
-
+   
     } catch (e) {
-      console.log(e);
+      setError(true);
     }
   }
 
@@ -42,6 +45,29 @@ const ExpansesTable = () => {
     fetchData();
   }, []);
 
+
+  let content;
+  if (error) {
+    content = <div>Sorry, something went wrong. Please try again.</div>
+  } else if (loading) {
+    content = <div>Loading ...</div>
+  } else {
+    content = (
+      <>
+      {expensesData.map(({amount, category, date, description, id, merchant, status}) => (
+        <tr key={id} className='table-contents'>
+          <th>{handleDate(date)}</th>
+          <th>{merchant}</th>
+          <th>{amount}</th>
+          <th>{category}</th>
+          <th>{description}</th>
+          <th>{status}</th>
+        </tr>
+      ))}
+      </>
+    )
+  }
+
     return (
       <div>
         <table className='table'>
@@ -53,16 +79,7 @@ const ExpansesTable = () => {
             </tr>
           </thead>
           <tbody>
-              {expensesData.map(({amount, category, date, description, id, merchant, status}) => (
-                <tr key={id} className='table-contents'>
-                  <th>{handleDate(date)}</th>
-                  <th>{merchant}</th>
-                  <th>{amount}</th>
-                  <th>{category}</th>
-                  <th>{description}</th>
-                  <th>{status}</th>
-                </tr>
-              ))}
+              {content}
           </tbody>
         </table>
       </div>
