@@ -2,9 +2,6 @@ import { useEffect, useState } from 'react';
 
 const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description', 'Status'];
 
-// Fix the Date rendering
-// Adjust the styles (font weight, alignment);
-
 const ExpansesTable = () => {
   const [expensesData, setExpensesData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,7 +19,7 @@ const ExpansesTable = () => {
 
       const data = await response.json();
 
-      if (data && data.length) {
+      if (data) {
         setExpensesData(data);
         setLoading(false);
       }
@@ -47,24 +44,27 @@ const ExpansesTable = () => {
 
 
   let content;
-  if (error) {
-    content = <div>Sorry, something went wrong. Please try again.</div>
-  } else if (loading) {
+  if (loading) {
     content = <div>Loading ...</div>
+  } else if (error) {
+    content = <div>Sorry, something went wrong. Please try again.</div>
   } else {
     content = (
       <>
-      {expensesData.map(({amount, category, date, description, id, merchant, status}) => (
-        <tr key={id} className='table-contents'>
-          <th>{handleDate(date)}</th>
-          <th>{merchant}</th>
-          <th>{amount}</th>
-          <th>{category}</th>
-          <th>{description}</th>
-          <th>{status}</th>
-        </tr>
-      ))}
+        {expensesData.length !== 0 ? 
+          expensesData.map(({amount, category, date, description, id, merchant, status}) => (
+            <tr key={id} className='table-contents'>
+              <th>{handleDate(date)}</th>
+              <th>{merchant}</th>
+              <th>{amount}</th>
+              <th>{category}</th>
+              <th>{description}</th>
+              <th>{status}</th>
+            </tr>
+          )) 
+          : <tr><th>No data available</th></tr>}
       </>
+
     )
   }
 
