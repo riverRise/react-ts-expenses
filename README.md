@@ -19,3 +19,10 @@ From the root folder, run `npm install` to install all required dependencies.
 ### Running Locally
 
 From the root folder, run `npm run dev` to run a local server with hot reloading.
+
+## Next steps
+
+1. Fix invalid nesting on DOM nodes in table for Loading/Error messages
+2. Accessibility check - tables are generally not user friendly
+3. Add tests (e.g. success, check Loading message renders, check Error message renders, check message for empty response renders)
+4. Move fetchData into a separate file
