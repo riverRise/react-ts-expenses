@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
-const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description', 'Status']
+const tableHeadingRow = ['Date', 'Merchant', 'Amount', 'Category', 'Description', 'Status'];
+
+// Fix the Date rendering
+// Adjust the styles (font weight, alignment);
 
 const ExpansesTable = () => {
   const [expensesData, setExpensesData] = useState([])
@@ -15,12 +18,22 @@ const ExpansesTable = () => {
       })
 
       const data = await response.json();
+      console.log({data});
 
       setExpensesData(data);
 
     } catch (e) {
       console.log(e);
     }
+  }
+
+  const handleDate = (date: string) => {
+    const newDate = new Date(date)
+    const prettyDate = new Intl.DateTimeFormat('en-GB', {
+      month: 'short',
+      day: 'numeric'
+    }).format(newDate);
+    return prettyDate;
   }
 
   useEffect(() => {
@@ -32,15 +45,15 @@ const ExpansesTable = () => {
         <table>
           <thead>
             <tr>
-              {tableHeadingRow.map((item) => (
-                <th>{item}</th>
+              {tableHeadingRow.map((item, index) => (
+                <th key={index}>{item}</th>
               ))}
             </tr>
           </thead>
           <tbody>
               {expensesData.map(({amount, category, date, description, id, merchant, status}) => (
                 <tr key={id}>
-                  <th>{date}</th>
+                  <th>{handleDate(date)}</th>
                   <th>{merchant}</th>
                   <th>{amount}</th>
                   <th>{category}</th>
